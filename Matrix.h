@@ -26,10 +26,18 @@ public:
     std::vector<Type>& operator[] (int row){ return mat[row]; }
     const std::vector<Type>& operator[] (int row) const { return mat[row]; }
 
+// Copy Constructor:
+    Matrix<Type>& operator=(const Matrix<Type>& t);
+    Matrix( const Matrix<Type>& matrix ) { *this = matrix;}
+
 // Arithimatic Operators Override:
     // Addition:
     template <class U>
     friend Matrix<U> operator+(Matrix<U> const& left, Matrix<U> const& right);
+
+    //Subtraction:
+    template <class U>
+    friend Matrix<U> operator-(Matrix<U> const& left, Matrix<U> const& right);
 
     // Multiplication:
     template <class U>
@@ -41,10 +49,6 @@ public:
     template <class U>
     friend Matrix<double> operator/(Matrix<U> const& left, double const& a);
 
-    //Subtraction:
-    template <class U>
-    friend Matrix<U> operator-(Matrix<U> const& left, Matrix<U> const& right);
-
 // Printing Methods:
     template <class U>
     friend std::ostream& operator<<(std::ostream& os, const Matrix<U>& dt);
@@ -55,6 +59,7 @@ public:
 // Destructors:
     ~Matrix()
     {
+        num_rows = 0; num_cols = 0;
         for(int i = 0; i < this->num_rows; i++)
             std::vector<Type>().swap(mat[i]);
         std::vector< std::vector<Type> >().swap(mat);
