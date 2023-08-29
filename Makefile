@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall
-SOURCES = Matrix.cpp Testing.cpp
+SOURCES = Testing.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 EXECUTABLE = Testing
 
