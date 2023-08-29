@@ -11,7 +11,7 @@ class Matrix
 {
 private:
     int num_rows, num_cols;
-    std::vector<std::vector<Type> > mat;
+    std::vector< std::vector<Type> > mat;
     
 public:
 
@@ -22,39 +22,44 @@ public:
     int get_num_rows() const { return num_rows; } 
     int get_num_cols() const { return num_cols; }
 
-// Operator Override:
-    // Setters:
+// Setters and Getters Operators Override:
     std::vector<Type>& operator[] (int row){ return mat[row]; }
     const std::vector<Type>& operator[] (int row) const { return mat[row]; }
 
-    //Arithmatic:
+// Arithimatic Operators Override:
+    // Addition:
     friend Matrix<int> operator+(Matrix<int> const& left, Matrix<int> const& right);
     friend Matrix<double> operator+(Matrix<double> const& left, Matrix<double> const& right);
 
+    // Multiplication:
     friend Matrix<double> operator*(double const& a, Matrix<int> const& right);
     friend Matrix<double> operator*(double const& a, Matrix<double> const& right);
-//    friend Matrix<double> operator*(Matrix<int> const& left, double const& a) { return a * left; }
-//    friend Matrix<double> operator*(Matrix<double> const& left, double const& a) { return a * left; }
-//    friend Matrix<double> operator/(Matrix<int> const& left, double const& a) { return 1/a * left; }
-//    friend Matrix<double> operator/(Matrix<double> const& left, double const& a) { return 1/a * left; }
+    friend Matrix<double> operator*(Matrix<int> const& left, double const& a);
+    friend Matrix<double> operator*(Matrix<double> const& left, double const& a);
 
-//    friend Matrix<double> operator-(Matrix<double> const& left, Matrix<double> const& right) { return left + (-1*right); }
-//    friend Matrix<int> operator-(Matrix<int> const& left, Matrix<int> const& right) { return ((1*left) - right).double_to_int(); }
+    // Division:
+    friend Matrix<double> operator/(Matrix<int> const& left, double const& a);
+    friend Matrix<double> operator/(Matrix<double> const& left, double const& a);
+
+    //Subtraction:
+    friend Matrix<double> operator-(Matrix<double> const& left, Matrix<double> const& right);
+    friend Matrix<int> operator-(Matrix<int> const& left, Matrix<int> const& right);
 
 // Printing Methods:
     void printMatrix() const;
     std::string MatrixString() const;
 
-// Casting
+// Casting:
     Matrix<int> double_to_int();
 
 // Destructors:
- /*   ~Matrix()
+    ~Matrix()
     {
         for(int i = 0; i < this->num_rows; i++)
-            mat[i].~vector();
-        mat.~vector();
-    } */
+            std::vector<Type>().swap(mat[i]);
+        std::vector< std::vector<Type> >().swap(mat);
+    }
+    
+    void operator delete(void* ptr) { ::operator delete(ptr);}
 };
-
 #endif
