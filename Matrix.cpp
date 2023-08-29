@@ -11,25 +11,13 @@ Matrix<Type>::Matrix(int num_rows, int num_cols, Type s) : num_rows(num_rows), n
 // Arithmatic Operator Override:
 
     // Addition:
-Matrix<int> operator+(Matrix<int> const& left, Matrix<int> const& right)
+template <class Type>
+Matrix<Type> operator+(Matrix<Type> const& left, Matrix<Type> const& right)
 {
     if(left.get_num_rows() != right.get_num_rows() || left.get_num_cols() != right.get_num_cols())
         throw std::invalid_argument("The arrays are not the same size.");
     
-    Matrix<int> Res(left.get_num_rows(), left.get_num_cols(),0);
-    for(int i = 0; i < Res.get_num_rows(); i++)
-        for(int j = 0; j < Res.get_num_cols(); j++)
-            Res[i][j] = left[i][j] + right[i][j];
-
-    return Res;
-}
-
-Matrix<double> operator+(Matrix<double> const& left, Matrix<double> const& right)
-{
-    if(left.get_num_rows() != right.get_num_rows() || left.get_num_cols() != right.get_num_cols())
-        throw std::invalid_argument("The arrays are not the same size.");
-    
-    Matrix<double> Res(left.get_num_rows(), left.get_num_cols(),0);
+    Matrix<Type> Res(left.get_num_rows(), left.get_num_cols(),0);
     for(int i = 0; i < Res.get_num_rows(); i++)
         for(int j = 0; j < Res.get_num_cols(); j++)
             Res[i][j] = left[i][j] + right[i][j];
@@ -38,7 +26,8 @@ Matrix<double> operator+(Matrix<double> const& left, Matrix<double> const& right
 }
 
     // Multiplication:
-Matrix<double> operator*(double const& a, Matrix<int> const& right)
+template <class Type>
+Matrix<double> operator*(double const& a, Matrix<Type> const& right)
 {
     Matrix<double> Res(right.get_num_rows(), right.get_num_cols(),0);
     for(int i = 0; i < Res.get_num_rows(); i++)
@@ -58,45 +47,41 @@ Matrix<double> operator*(double const& a, Matrix<double> const& right)
     return Res;
 }
 
-Matrix<double> operator*(Matrix<int> const& left, double const& a) { return a * left; }
-Matrix<double> operator*(Matrix<double> const& left, double const& a) { return a * left; }
+template <class Type>
+Matrix<double> operator*(Matrix<Type> const& left, double const& a) { return a * left; }
 
     // Division:
-Matrix<double> operator/(Matrix<int> const& left, double const& a) { return 1/a * left; }
-Matrix<double> operator/(Matrix<double> const& left, double const& a) { return 1/a * left; }
+template <class Type>
+Matrix<double> operator/(Matrix<Type> const& left, double const& a) { return 1/a * left; }\
 
     //Subtraction:
-Matrix<double> operator-(Matrix<double> const& left, Matrix<double> const& right)  { return left + (-1*right); }
-Matrix<int> operator-(Matrix<int> const& left, Matrix<int> const& right) { return ((1*left) - 1*right).double_to_int(); }
+template <class Type>
+Matrix<Type> operator-(Matrix<Type> const& left, Matrix<Type> const& right) 
+{ 
+    if(left.get_num_rows() != right.get_num_rows() || left.get_num_cols() != right.get_num_cols())
+        throw std::invalid_argument("The arrays are not the same size.");
+    
+    Matrix<Type> Res(left.get_num_rows(), left.get_num_cols(),0);
+    for(int i = 0; i < Res.get_num_rows(); i++)
+        for(int j = 0; j < Res.get_num_cols(); j++)
+            Res[i][j] = left[i][j] - right[i][j];
+
+    return Res;
+}
 
 // Printing Methods:
 template <class Type>
-std::string Matrix<Type>::MatrixString() const
+std::ostream& operator<<(std::ostream& os, const Matrix<Type>& matrix)
 {
-    std::string temp = "";
-
-    for(int i = 0; i < this->num_rows; i++)
+    for(int i = 0; i < matrix.get_num_rows(); i++)
     {
-        for(int j = 0; j < this->num_cols; j++)
+        for(int j = 0; j < matrix.get_num_cols(); j++)
         {
-            temp += std::to_string(this->mat[i][j]) + " ";
+            os<<(std::to_string(matrix[i][j]) + " ");
         }
-        temp += "\n";
+        os<<std::endl;
     }
-    return temp;
-}
-
-template <class Type>
-void Matrix<Type>::printMatrix() const
-{
-    for(int i = 0; i < this->num_rows; i++)
-    {
-        for(int j = 0; j < this->num_cols; j++)
-        {
-            std::cout<<(std::to_string(this->mat[i][j]) + " ");
-        }
-        std::cout<<std::endl;
-    }
+    return os;
 }
 
 // Casting:

@@ -28,26 +28,26 @@ public:
 
 // Arithimatic Operators Override:
     // Addition:
-    friend Matrix<int> operator+(Matrix<int> const& left, Matrix<int> const& right);
-    friend Matrix<double> operator+(Matrix<double> const& left, Matrix<double> const& right);
+    template <class U>
+    friend Matrix<U> operator+(Matrix<U> const& left, Matrix<U> const& right);
 
     // Multiplication:
-    friend Matrix<double> operator*(double const& a, Matrix<int> const& right);
-    friend Matrix<double> operator*(double const& a, Matrix<double> const& right);
-    friend Matrix<double> operator*(Matrix<int> const& left, double const& a);
-    friend Matrix<double> operator*(Matrix<double> const& left, double const& a);
+    template <class U>
+    friend Matrix<double> operator*(double const& a, Matrix<U> const& right);
+    template <class U>
+    friend Matrix<double> operator*(Matrix<U> const& left, double const& a);
 
     // Division:
-    friend Matrix<double> operator/(Matrix<int> const& left, double const& a);
-    friend Matrix<double> operator/(Matrix<double> const& left, double const& a);
+    template <class U>
+    friend Matrix<double> operator/(Matrix<U> const& left, double const& a);
 
     //Subtraction:
-    friend Matrix<double> operator-(Matrix<double> const& left, Matrix<double> const& right);
-    friend Matrix<int> operator-(Matrix<int> const& left, Matrix<int> const& right);
+    template <class U>
+    friend Matrix<U> operator-(Matrix<U> const& left, Matrix<U> const& right);
 
 // Printing Methods:
-    void printMatrix() const;
-    std::string MatrixString() const;
+    template <class U>
+    friend std::ostream& operator<<(std::ostream& os, const Matrix<U>& dt);
 
 // Casting:
     Matrix<int> double_to_int();
@@ -59,7 +59,7 @@ public:
             std::vector<Type>().swap(mat[i]);
         std::vector< std::vector<Type> >().swap(mat);
     }
-    
+
     void operator delete(void* ptr) { ::operator delete(ptr);}
 };
 #endif

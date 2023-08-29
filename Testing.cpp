@@ -10,11 +10,12 @@ int main()
     Matrix<double> *B = new Matrix<double>(2,2,1);
     *B = A2/2;
 
-    Matrix<int> A3 = (A2-A2);
+    Matrix<int> A3 = (A2+A2);
 
-    std::cout << A2.MatrixString() << std::endl;
-    std::cout << A3.MatrixString() << std::endl;
-    std::cout << B->double_to_int().MatrixString() << std::endl;
+    std::cout << A2 << std::endl;
+    std::cout << A3 << std::endl;
+    std::cout << B->double_to_int() << std::endl;
+    std::cout << *B << std::endl;
 
 //    A1.printMatrix();
 
