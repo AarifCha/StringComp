@@ -16,6 +16,7 @@ private:
 public:
 
 // Constructors:
+    Matrix(); 
     Matrix(int num_rows, int num_cols, Type s);
 
 // Getters:
@@ -66,5 +67,7 @@ public:
     }
 
     void operator delete(void* ptr) { ::operator delete(ptr);}
+
+    double det();
 };
 #endif
